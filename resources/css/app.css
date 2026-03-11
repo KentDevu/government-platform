@@ -1,0 +1,212 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --color-gov-primary: #135bec;
+    --color-gov-secondary: #ce1126;
+    --color-gov-accent: #fcd116;
+    --color-gov-background-light: #f6f6f8;
+    --color-gov-background-dark: #101622;
+}
+
+/* ==================== SCROLL ANIMATIONS ==================== */
+[data-animate] {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-animate].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+[data-animate][data-delay="1"] { transition-delay: 0.1s; }
+[data-animate][data-delay="2"] { transition-delay: 0.2s; }
+[data-animate][data-delay="3"] { transition-delay: 0.3s; }
+[data-animate][data-delay="4"] { transition-delay: 0.4s; }
+[data-animate][data-delay="5"] { transition-delay: 0.5s; }
+
+/* Fade-in from left */
+[data-animate="fade-left"] {
+    opacity: 0;
+    transform: translateX(-40px);
+}
+[data-animate="fade-left"].is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Fade-in from right */
+[data-animate="fade-right"] {
+    opacity: 0;
+    transform: translateX(40px);
+}
+[data-animate="fade-right"].is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Scale-in */
+[data-animate="scale"] {
+    opacity: 0;
+    transform: scale(0.9);
+}
+[data-animate="scale"].is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ==================== HERO GRADIENT ==================== */
+.hero-gradient {
+    background: linear-gradient(135deg, #0a1628 0%, #0e2a5c 35%, #135bec 70%, #1e6ff2 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 12s ease-in-out infinite;
+}
+
+/* ==================== HERO ANIMATIONS ==================== */
+@keyframes hero-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50%      { transform: translateY(-16px) rotate(2deg); }
+}
+@keyframes hero-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%      { opacity: 0.7; transform: scale(1.05); }
+}
+@keyframes hero-slide-up {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-badge-pop {
+    0%   { opacity: 0; transform: scale(0.7) translateY(8px); }
+    60%  { transform: scale(1.05) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+@keyframes gradient-shift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.animate-hero-float   { animation: hero-float 6s ease-in-out infinite; }
+.animate-hero-pulse   { animation: hero-pulse 4s ease-in-out infinite; }
+.animate-hero-slide-up { animation: hero-slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-hero-badge   { animation: hero-badge-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+.animate-shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+}
+
+.hero-slide-delay-1 { animation-delay: 0.15s; }
+.hero-slide-delay-2 { animation-delay: 0.3s; }
+.hero-slide-delay-3 { animation-delay: 0.45s; }
+.hero-slide-delay-4 { animation-delay: 0.6s; }
+
+/* ==================== BUTTON EFFECTS ==================== */
+.btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-glow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+.btn-glow:hover::after {
+    transform: translateX(100%);
+}
+.btn-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(19, 91, 236, 0.35);
+}
+
+.btn-outline-glow {
+    position: relative;
+    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+.btn-outline-glow:hover {
+    transform: translateY(-2px);
+    background-color: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.5);
+}
+
+/* ==================== CARD EFFECTS ==================== */
+.card-hover {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s ease;
+}
+.card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(19, 91, 236, 0.06);
+}
+
+/* ==================== ICON HOVER ==================== */
+.icon-hover {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+}
+.group:hover .icon-hover {
+    transform: scale(1.15) rotate(-4deg);
+}
+
+/* ==================== NEWS CARD IMAGE ZOOM ==================== */
+.img-zoom {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .img-zoom {
+    transform: scale(1.05);
+}
+
+/* ==================== NAV LINK UNDERLINE ==================== */
+.nav-link-animated {
+    position: relative;
+}
+.nav-link-animated::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-gov-primary);
+    border-radius: 2px;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link-animated:hover::after,
+.nav-link-animated.active::after {
+    width: 100%;
+}
+
+/* ==================== STAT COUNTER ==================== */
+@keyframes count-up-bar {
+    from { width: 0%; }
+    to   { width: var(--bar-width, 100%); }
+}
+.stat-bar-fill {
+    animation: count-up-bar 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ==================== PRESS RELEASE ITEM ==================== */
+.press-item {
+    transition: padding-left 0.3s ease, background-color 0.3s ease;
+}
+.press-item:hover {
+    padding-left: 12px;
+    background-color: rgba(19, 91, 236, 0.04);
+}

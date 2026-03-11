@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" fill="none">
+  <!-- Background soft glow -->
+  <circle cx="300" cy="250" r="220" fill="white" opacity="0.03"/>
+  <circle cx="300" cy="250" r="180" fill="white" opacity="0.04"/>
+
+  <!-- Philippine sun rays (stylized) -->
+  <g opacity="0.12">
+    <line x1="300" y1="250" x2="300" y2="30" stroke="#FCD116" stroke-width="2"/>
+    <line x1="300" y1="250" x2="455" y2="95" stroke="#FCD116" stroke-width="2"/>
+    <line x1="300" y1="250" x2="520" y2="250" stroke="#FCD116" stroke-width="2"/>
+    <line x1="300" y1="250" x2="455" y2="405" stroke="#FCD116" stroke-width="2"/>
+    <line x1="300" y1="250" x2="300" y2="470" stroke="#FCD116" stroke-width="2"/>
+    <line x1="300" y1="250" x2="145" y2="405" stroke="#FCD116" stroke-width="2"/>
+    <line x1="300" y1="250" x2="80" y2="250" stroke="#FCD116" stroke-width="2"/>
+    <line x1="300" y1="250" x2="145" y2="95" stroke="#FCD116" stroke-width="2"/>
+  </g>
+
+  <!-- Central sun circle -->
+  <circle cx="300" cy="250" r="60" fill="none" stroke="#FCD116" stroke-width="1.5" opacity="0.25"/>
+  <circle cx="300" cy="250" r="45" fill="#FCD116" opacity="0.06"/>
+
+  <!-- Government building (central) -->
+  <g transform="translate(220, 170)">
+    <!-- Pediment (triangle top) -->
+    <polygon points="80,0 160,40 0,40" fill="white" opacity="0.15" stroke="white" stroke-width="1" stroke-opacity="0.3"/>
+    <!-- Columns -->
+    <rect x="12" y="40" width="12" height="70" rx="2" fill="white" opacity="0.12" stroke="white" stroke-width="0.5" stroke-opacity="0.25"/>
+    <rect x="38" y="40" width="12" height="70" rx="2" fill="white" opacity="0.12" stroke="white" stroke-width="0.5" stroke-opacity="0.25"/>
+    <rect x="64" y="40" width="12" height="70" rx="2" fill="white" opacity="0.15" stroke="white" stroke-width="0.5" stroke-opacity="0.25"/>
+    <rect x="90" y="40" width="12" height="70" rx="2" fill="white" opacity="0.15" stroke="white" stroke-width="0.5" stroke-opacity="0.25"/>
+    <rect x="116" y="40" width="12" height="70" rx="2" fill="white" opacity="0.12" stroke="white" stroke-width="0.5" stroke-opacity="0.25"/>
+    <rect x="142" y="40" width="12" height="70" rx="2" fill="white" opacity="0.12" stroke="white" stroke-width="0.5" stroke-opacity="0.25"/>
+    <!-- Base -->
+    <rect x="-5" y="110" width="170" height="8" rx="2" fill="white" opacity="0.2"/>
+    <!-- Steps -->
+    <rect x="-10" y="118" width="180" height="5" rx="1" fill="white" opacity="0.12"/>
+    <rect x="-15" y="123" width="190" height="5" rx="1" fill="white" opacity="0.08"/>
+    <!-- Door -->
+    <rect x="60" y="70" width="40" height="40" rx="4" fill="white" opacity="0.08"/>
+    <path d="M60 110 L60 75 Q80 60 100 75 L100 110" fill="white" opacity="0.05"/>
+  </g>
+
+  <!-- Connected service nodes (orbital) -->
+  <!-- Top-right: Passport -->
+  <g transform="translate(430, 110)">
+    <circle cx="0" cy="0" r="28" fill="white" opacity="0.08" stroke="white" stroke-width="1" stroke-opacity="0.2"/>
+    <rect x="-12" y="-14" width="24" height="28" rx="3" fill="none" stroke="white" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="-4" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
+    <line x1="-6" y1="6" x2="6" y2="6" stroke="white" stroke-width="1" opacity="0.3"/>
+    <line x1="-6" y1="10" x2="6" y2="10" stroke="white" stroke-width="1" opacity="0.2"/>
+  </g>
+  <!-- Connection line -->
+  <line x1="370" y1="190" x2="415" y2="130" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.15"/>
+
+  <!-- Right: ID card -->
+  <g transform="translate(470, 260)">
+    <circle cx="0" cy="0" r="28" fill="white" opacity="0.08" stroke="white" stroke-width="1" stroke-opacity="0.2"/>
+    <rect x="-16" y="-10" width="32" height="20" rx="3" fill="none" stroke="white" stroke-width="1.5" opacity="0.5"/>
+    <rect x="-12" y="-6" width="8" height="8" rx="1" fill="white" opacity="0.25"/>
+    <line x1="0" y1="-4" x2="12" y2="-4" stroke="white" stroke-width="1" opacity="0.3"/>
+    <line x1="0" y1="0" x2="10" y2="0" stroke="white" stroke-width="1" opacity="0.2"/>
+    <line x1="0" y1="4" x2="8" y2="4" stroke="white" stroke-width="1" opacity="0.15"/>
+  </g>
+  <line x1="380" y1="250" x2="445" y2="258" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.15"/>
+
+  <!-- Bottom-right: Payments -->
+  <g transform="translate(420, 390)">
+    <circle cx="0" cy="0" r="28" fill="white" opacity="0.08" stroke="white" stroke-width="1" stroke-opacity="0.2"/>
+    <circle cx="0" cy="-2" r="10" fill="none" stroke="white" stroke-width="1.5" opacity="0.5"/>
+    <text x="0" y="2" text-anchor="middle" fill="white" opacity="0.5" font-size="10" font-weight="600">₱</text>
+  </g>
+  <line x1="360" y1="310" x2="405" y2="370" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.15"/>
+
+  <!-- Top-left: Health -->
+  <g transform="translate(130, 120)">
+    <circle cx="0" cy="0" r="24" fill="white" opacity="0.06" stroke="white" stroke-width="1" stroke-opacity="0.15"/>
+    <line x1="-8" y1="0" x2="8" y2="0" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <line x1="0" y1="-8" x2="0" y2="8" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  </g>
+  <line x1="165" y1="145" x2="240" y2="200" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.15"/>
+
+  <!-- Bottom-left: Education -->
+  <g transform="translate(140, 380)">
+    <circle cx="0" cy="0" r="24" fill="white" opacity="0.06" stroke="white" stroke-width="1" stroke-opacity="0.15"/>
+    <!-- Graduation cap -->
+    <polygon points="0,-10 16,0 0,4 -16,0" fill="none" stroke="white" stroke-width="1.2" opacity="0.4"/>
+    <line x1="0" y1="4" x2="0" y2="10" stroke="white" stroke-width="1" opacity="0.3"/>
+    <line x1="12" y1="2" x2="12" y2="8" stroke="white" stroke-width="1" opacity="0.3"/>
+  </g>
+  <line x1="165" y1="365" x2="240" y2="310" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.15"/>
+
+  <!-- Left: Social services -->
+  <g transform="translate(95, 260)">
+    <circle cx="0" cy="0" r="24" fill="white" opacity="0.06" stroke="white" stroke-width="1" stroke-opacity="0.15"/>
+    <!-- People icon -->
+    <circle cx="-6" cy="-4" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.35"/>
+    <circle cx="6" cy="-4" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.35"/>
+    <path d="M-14 8 Q-6 0 2 8" fill="none" stroke="white" stroke-width="1" opacity="0.25"/>
+    <path d="M-2 8 Q6 0 14 8" fill="none" stroke="white" stroke-width="1" opacity="0.25"/>
+  </g>
+  <line x1="120" y1="255" x2="220" y2="250" stroke="white" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.15"/>
+
+  <!-- Orbital ring -->
+  <ellipse cx="300" cy="250" rx="200" ry="170" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="6 8" opacity="0.08"/>
+
+  <!-- Small decorative dots -->
+  <circle cx="180" cy="160" r="2" fill="#FCD116" opacity="0.4"/>
+  <circle cx="420" cy="180" r="2" fill="#FCD116" opacity="0.3"/>
+  <circle cx="200" cy="350" r="2" fill="#FCD116" opacity="0.35"/>
+  <circle cx="400" cy="340" r="2" fill="#FCD116" opacity="0.3"/>
+  <circle cx="300" cy="420" r="1.5" fill="white" opacity="0.2"/>
+  <circle cx="300" cy="80" r="1.5" fill="white" opacity="0.2"/>
+
+  <!-- Three stars (Philippine flag motif) -->
+  <g opacity="0.3">
+    <!-- Star top-left -->
+    <polygon points="160,90 163,98 172,98 165,103 168,112 160,107 152,112 155,103 148,98 157,98" fill="#FCD116"/>
+    <!-- Star top-right -->
+    <polygon points="440,90 443,98 452,98 445,103 448,112 440,107 432,112 435,103 428,98 437,98" fill="#FCD116"/>
+    <!-- Star bottom -->
+    <polygon points="300,410 303,418 312,418 305,423 308,432 300,427 292,432 295,423 288,418 297,418" fill="#FCD116"/>
+  </g>
+</svg>

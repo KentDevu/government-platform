@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg-dg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="screen-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <filter id="glow-dg"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg-dg)"/>
+
+  <!-- Grid pattern -->
+  <g stroke="white" stroke-width="0.2" opacity="0.04">
+    <line x1="0" y1="50" x2="600" y2="50"/><line x1="0" y1="100" x2="600" y2="100"/>
+    <line x1="0" y1="150" x2="600" y2="150"/><line x1="0" y1="200" x2="600" y2="200"/>
+    <line x1="0" y1="250" x2="600" y2="250"/><line x1="0" y1="300" x2="600" y2="300"/>
+    <line x1="0" y1="350" x2="600" y2="350"/>
+    <line x1="50" y1="0" x2="50" y2="400"/><line x1="100" y1="0" x2="100" y2="400"/>
+    <line x1="150" y1="0" x2="150" y2="400"/><line x1="200" y1="0" x2="200" y2="400"/>
+    <line x1="250" y1="0" x2="250" y2="400"/><line x1="300" y1="0" x2="300" y2="400"/>
+    <line x1="350" y1="0" x2="350" y2="400"/><line x1="400" y1="0" x2="400" y2="400"/>
+    <line x1="450" y1="0" x2="450" y2="400"/><line x1="500" y1="0" x2="500" y2="400"/>
+    <line x1="550" y1="0" x2="550" y2="400"/>
+  </g>
+
+  <!-- Main monitor -->
+  <g transform="translate(300, 170)">
+    <!-- Monitor body -->
+    <rect x="-120" y="-80" width="240" height="160" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <!-- Screen -->
+    <rect x="-108" y="-68" width="216" height="130" rx="4" fill="url(#screen-grad)" opacity="0.6"/>
+    <!-- Screen content: dashboard -->
+    <g opacity="0.7">
+      <!-- Header bar -->
+      <rect x="-100" y="-62" width="200" height="14" rx="2" fill="#0f172a" opacity="0.5"/>
+      <circle cx="-90" cy="-55" r="2.5" fill="#ef4444" opacity="0.6"/>
+      <circle cx="-80" cy="-55" r="2.5" fill="#fbbf24" opacity="0.6"/>
+      <circle cx="-70" cy="-55" r="2.5" fill="#22c55e" opacity="0.6"/>
+      <!-- Chart bars -->
+      <rect x="-90" y="20" width="14" height="30" rx="2" fill="#3b82f6" opacity="0.5"><animate attributeName="height" values="25;35;25" dur="3s" repeatCount="indefinite"/><animate attributeName="y" values="25;15;25" dur="3s" repeatCount="indefinite"/></rect>
+      <rect x="-70" y="10" width="14" height="40" rx="2" fill="#60a5fa" opacity="0.5"><animate attributeName="height" values="35;45;35" dur="4s" repeatCount="indefinite"/><animate attributeName="y" values="15;5;15" dur="4s" repeatCount="indefinite"/></rect>
+      <rect x="-50" y="0" width="14" height="50" rx="2" fill="#3b82f6" opacity="0.5"><animate attributeName="height" values="45;55;45" dur="3.5s" repeatCount="indefinite"/><animate attributeName="y" values="5;-5;5" dur="3.5s" repeatCount="indefinite"/></rect>
+      <rect x="-30" y="-10" width="14" height="60" rx="2" fill="#2563eb" opacity="0.5"><animate attributeName="height" values="55;60;55" dur="5s" repeatCount="indefinite"/><animate attributeName="y" values="-5;-10;-5" dur="5s" repeatCount="indefinite"/></rect>
+      <!-- Sidebar stats -->
+      <rect x="20" y="-40" width="70" height="8" rx="2" fill="white" opacity="0.1"/>
+      <rect x="20" y="-26" width="50" height="6" rx="1" fill="white" opacity="0.06"/>
+      <rect x="20" y="-14" width="60" height="6" rx="1" fill="white" opacity="0.06"/>
+      <rect x="20" y="-2" width="40" height="6" rx="1" fill="white" opacity="0.06"/>
+      <!-- Circle chart -->
+      <circle cx="55" cy="35" r="18" fill="none" stroke="#3b82f6" stroke-width="4" stroke-dasharray="60 113" opacity="0.4"/>
+      <circle cx="55" cy="35" r="18" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="30 113" stroke-dashoffset="-60" opacity="0.3"/>
+    </g>
+    <!-- Monitor stand -->
+    <rect x="-15" y="82" width="30" height="20" rx="2" fill="#334155"/>
+    <rect x="-40" y="100" width="80" height="5" rx="2" fill="#334155"/>
+    <!-- Screen glow -->
+    <rect x="-120" y="-80" width="240" height="160" rx="8" fill="#3b82f6" opacity="0.03" filter="url(#glow-dg)"/>
+  </g>
+
+  <!-- Floating mobile device -->
+  <g transform="translate(480, 220)">
+    <rect x="-25" y="-45" width="50" height="90" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <rect x="-20" y="-38" width="40" height="68" rx="2" fill="#1e3a5f" opacity="0.5"/>
+    <circle cx="0" cy="33" r="3" fill="#334155"/>
+    <!-- Mobile content -->
+    <rect x="-16" y="-32" width="32" height="4" rx="1" fill="white" opacity="0.1"/>
+    <rect x="-16" y="-24" width="24" height="3" rx="1" fill="white" opacity="0.06"/>
+    <rect x="-16" y="-18" width="28" height="3" rx="1" fill="white" opacity="0.06"/>
+    <rect x="-16" y="-8" width="32" height="16" rx="2" fill="#3b82f6" opacity="0.2"/>
+    <animate attributeName="opacity" values="0.7;0.9;0.7" dur="4s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Floating tablet -->
+  <g transform="translate(100, 200)" opacity="0.6">
+    <rect x="-35" y="-50" width="70" height="100" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <rect x="-28" y="-42" width="56" height="78" rx="2" fill="#1e3a5f" opacity="0.5"/>
+    <rect x="-22" y="-36" width="44" height="6" rx="1" fill="white" opacity="0.08"/>
+    <rect x="-22" y="-26" width="44" height="20" rx="2" fill="#22c55e" opacity="0.15"/>
+    <rect x="-22" y="-2" width="30" height="4" rx="1" fill="white" opacity="0.06"/>
+    <rect x="-22" y="6" width="36" height="4" rx="1" fill="white" opacity="0.06"/>
+    <animate attributeName="opacity" values="0.5;0.7;0.5" dur="5s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Data flow lines connecting devices -->
+  <g stroke="#3b82f6" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.08">
+    <path d="M170 200 Q230 180 300 170" fill="none"/>
+    <path d="M430 200 Q460 210 455 220" fill="none"/>
+  </g>
+
+  <!-- Floating data particles -->
+  <circle cx="220" cy="160" r="2" fill="#3b82f6" opacity="0.15"><animate attributeName="cy" values="165;155;165" dur="3s" repeatCount="indefinite"/></circle>
+  <circle cx="400" cy="190" r="1.5" fill="#60a5fa" opacity="0.12"><animate attributeName="cy" values="195;185;195" dur="4s" repeatCount="indefinite"/></circle>
+  <circle cx="350" cy="300" r="1" fill="#22c55e" opacity="0.1"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite"/></circle>
+  <circle cx="150" cy="320" r="1.2" fill="#a78bfa" opacity="0.08"><animate attributeName="opacity" values="0.04;0.12;0.04" dur="4.5s" repeatCount="indefinite"/></circle>
+  <circle cx="500" cy="100" r="1" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="5s" repeatCount="indefinite"/></circle>
+  <circle cx="80" cy="80" r="0.8" fill="#60a5fa" opacity="0.08"><animate attributeName="opacity" values="0.04;0.12;0.04" dur="3s" repeatCount="indefinite"/></circle>
+</svg>

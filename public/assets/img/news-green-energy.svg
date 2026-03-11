@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg-ge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#042f2e"/>
+      <stop offset="50%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+    <linearGradient id="sky-ge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c4a6e" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#064e3b" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="sun-ge" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur-ge"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg-ge)"/>
+  <rect width="600" height="150" fill="url(#sky-ge)"/>
+
+  <!-- Sun -->
+  <circle cx="480" cy="60" r="80" fill="url(#sun-ge)">
+    <animate attributeName="r" values="75;85;75" dur="6s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="480" cy="60" r="20" fill="#fbbf24" opacity="0.08"/>
+
+  <!-- Rolling hills -->
+  <path d="M0 350 Q100 300 200 320 Q350 280 500 310 Q550 315 600 300 L600 400 L0 400 Z" fill="#065f46" opacity="0.3"/>
+  <path d="M0 370 Q150 340 300 355 Q450 330 600 350 L600 400 L0 400 Z" fill="#047857" opacity="0.2"/>
+
+  <!-- Wind turbines -->
+  <!-- Turbine 1 (large, foreground) -->
+  <g transform="translate(180, 200)">
+    <rect x="-2" y="0" width="4" height="160" fill="white" opacity="0.1"/>
+    <circle cx="0" cy="0" r="4" fill="white" opacity="0.12"/>
+    <!-- Blades (animated rotation) -->
+    <g opacity="0.1">
+      <animateTransform attributeName="transform" type="rotate" values="0;360" dur="8s" repeatCount="indefinite"/>
+      <line x1="0" y1="0" x2="0" y2="-70" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="60" y2="35" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="-60" y2="35" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Turbine 2 (medium, mid-ground) -->
+  <g transform="translate(320, 220)">
+    <rect x="-1.5" y="0" width="3" height="130" fill="white" opacity="0.07"/>
+    <circle cx="0" cy="0" r="3" fill="white" opacity="0.09"/>
+    <g opacity="0.07">
+      <animateTransform attributeName="transform" type="rotate" values="120;480" dur="10s" repeatCount="indefinite"/>
+      <line x1="0" y1="0" x2="0" y2="-55" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="48" y2="28" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="-48" y2="28" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Turbine 3 (small, background) -->
+  <g transform="translate(430, 240)">
+    <rect x="-1" y="0" width="2" height="100" fill="white" opacity="0.05"/>
+    <circle cx="0" cy="0" r="2" fill="white" opacity="0.06"/>
+    <g opacity="0.05">
+      <animateTransform attributeName="transform" type="rotate" values="240;600" dur="12s" repeatCount="indefinite"/>
+      <line x1="0" y1="0" x2="0" y2="-40" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="35" y2="20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="-35" y2="20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Solar panels -->
+  <g transform="translate(50, 330)" opacity="0.12">
+    <g fill="none" stroke="white" stroke-width="0.8">
+      <!-- Panel 1 -->
+      <rect x="0" y="0" width="45" height="25" rx="1" transform="skewY(-8)"/>
+      <line x1="15" y1="0" x2="12" y2="22" transform="skewY(-8)"/>
+      <line x1="30" y1="0" x2="27" y2="22" transform="skewY(-8)"/>
+      <line x1="0" y1="8" x2="45" y2="4" transform="skewY(-8)"/>
+      <line x1="0" y1="16" x2="45" y2="12" transform="skewY(-8)"/>
+      <!-- Panel 2 -->
+      <rect x="55" y="-5" width="45" height="25" rx="1" transform="skewY(-8)"/>
+      <line x1="70" y1="-5" x2="67" y2="17" transform="skewY(-8)"/>
+      <line x1="85" y1="-5" x2="82" y2="17" transform="skewY(-8)"/>
+      <line x1="55" y1="3" x2="100" y2="-1" transform="skewY(-8)"/>
+      <line x1="55" y1="11" x2="100" y2="7" transform="skewY(-8)"/>
+    </g>
+    <!-- Reflection shimmer -->
+    <rect x="5" y="2" width="8" height="3" rx="1" fill="#60a5fa" opacity="0.3" transform="skewY(-8)">
+      <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="62" y="-2" width="8" height="3" rx="1" fill="#60a5fa" opacity="0.2" transform="skewY(-8)">
+      <animate attributeName="opacity" values="0.1;0.35;0.1" dur="4s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- Leaf / eco symbol -->
+  <g transform="translate(520, 300)" opacity="0.08">
+    <path d="M0 0 Q20 -30 0 -50 Q-20 -30 0 0" fill="#22c55e"/>
+    <line x1="0" y1="0" x2="0" y2="-30" stroke="#22c55e" stroke-width="0.8"/>
+  </g>
+
+  <!-- Power/energy flow lines -->
+  <g stroke="#22c55e" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.06">
+    <path d="M180 360 Q200 380 250 375 Q300 370 350 380" fill="none"/>
+    <path d="M100 355 Q130 360 150 370" fill="none"/>
+  </g>
+
+  <!-- Sun rays -->
+  <g stroke="#fbbf24" stroke-width="0.5" opacity="0.04">
+    <line x1="480" y1="60" x2="400" y2="150"/>
+    <line x1="480" y1="60" x2="350" y2="180"/>
+    <line x1="480" y1="60" x2="300" y2="200"/>
+    <line x1="480" y1="60" x2="450" y2="180"/>
+  </g>
+
+  <!-- Floating particles -->
+  <circle cx="100" cy="100" r="1.2" fill="#22c55e" opacity="0.12"><animate attributeName="opacity" values="0.06;0.16;0.06" dur="4s" repeatCount="indefinite"/></circle>
+  <circle cx="400" cy="120" r="1" fill="#fbbf24" opacity="0.1"><animate attributeName="opacity" values="0.05;0.14;0.05" dur="5s" repeatCount="indefinite"/></circle>
+  <circle cx="250" cy="80" r="0.8" fill="white" opacity="0.08"><animate attributeName="opacity" values="0.04;0.12;0.04" dur="3.5s" repeatCount="indefinite"/></circle>
+  <circle cx="550" cy="180" r="1" fill="#34d399" opacity="0.1"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="4.5s" repeatCount="indefinite"/></circle>
+  <circle cx="50" cy="250" r="0.7" fill="#60a5fa" opacity="0.08"><animate attributeName="opacity" values="0.04;0.12;0.04" dur="5.5s" repeatCount="indefinite"/></circle>
+</svg>

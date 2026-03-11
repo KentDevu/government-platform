@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#020b1a"/>
+      <stop offset="40%" stop-color="#0c1f42"/>
+      <stop offset="100%" stop-color="#162d5a"/>
+    </linearGradient>
+    <filter id="blur-sm"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="blur-md"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="1920" height="500" fill="url(#bg)"/>
+
+  <!-- Ambient glows -->
+  <ellipse cx="1400" cy="200" rx="400" ry="200" fill="#1e40af" opacity="0.08" filter="url(#blur-md)"/>
+  <ellipse cx="500" cy="300" rx="300" ry="180" fill="#312e81" opacity="0.06" filter="url(#blur-md)"/>
+
+  <!-- City skyline silhouette (Manila inspired) -->
+  <!-- Far buildings -->
+  <g opacity="0.06">
+    <rect x="100" y="220" width="60" height="280" fill="white"/>
+    <rect x="180" y="260" width="45" height="240" fill="white"/>
+    <rect x="250" y="200" width="55" height="300" fill="white"/>
+    <rect x="330" y="240" width="40" height="260" fill="white"/>
+    <rect x="1500" y="210" width="50" height="290" fill="white"/>
+    <rect x="1570" y="250" width="60" height="250" fill="white"/>
+    <rect x="1650" y="230" width="45" height="270" fill="white"/>
+    <rect x="1720" y="270" width="55" height="230" fill="white"/>
+    <rect x="1800" y="240" width="40" height="260" fill="white"/>
+  </g>
+
+  <!-- Main government building cluster (center) -->
+  <!-- Central dome building -->
+  <g transform="translate(860, 160)" opacity="0.1">
+    <path d="M0 120 L0 100 Q0 60 30 40 L60 20 Q100 0 140 20 L170 40 Q200 60 200 100 L200 120" fill="white"/>
+    <rect x="-20" y="120" width="240" height="180" fill="white"/>
+    <!-- Columns -->
+    <rect x="15" y="120" width="10" height="100" fill="white" opacity="1.5"/>
+    <rect x="45" y="120" width="10" height="100" fill="white" opacity="1.5"/>
+    <rect x="75" y="120" width="10" height="100" fill="white" opacity="1.5"/>
+    <rect x="115" y="120" width="10" height="100" fill="white" opacity="1.5"/>
+    <rect x="145" y="120" width="10" height="100" fill="white" opacity="1.5"/>
+    <rect x="175" y="120" width="10" height="100" fill="white" opacity="1.5"/>
+    <!-- Windows -->
+    <g opacity="0.5">
+      <rect x="10" y="240" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="35" y="240" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="60" y="240" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="85" y="240" width="15" height="12" rx="1" fill="#f59e0b"/>
+      <rect x="110" y="240" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="135" y="240" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="160" y="240" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="185" y="240" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="10" y="260" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="35" y="260" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="60" y="260" width="15" height="12" rx="1" fill="#f59e0b"/>
+      <rect x="85" y="260" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="110" y="260" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="135" y="260" width="15" height="12" rx="1" fill="#f59e0b"/>
+      <rect x="160" y="260" width="15" height="12" rx="1" fill="#3b82f6"/>
+      <rect x="185" y="260" width="15" height="12" rx="1" fill="#3b82f6"/>
+    </g>
+    <!-- Steps -->
+    <rect x="-30" y="300" width="260" height="6" rx="1" fill="white"/>
+    <rect x="-40" y="306" width="280" height="5" rx="1" fill="white" opacity="0.7"/>
+  </g>
+
+  <!-- Side buildings -->
+  <g opacity="0.07">
+    <!-- Left wing -->
+    <rect x="620" y="280" width="180" height="220" fill="white"/>
+    <polygon points="620,280 710,240 800,280" fill="white"/>
+    <!-- Right wing -->
+    <rect x="1120" y="290" width="160" height="210" fill="white"/>
+    <polygon points="1120,290 1200,250 1280,290" fill="white"/>
+  </g>
+
+  <!-- Connection lines between buildings (org chart style) -->
+  <g stroke="white" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.06">
+    <path d="M960 340 L960 370 L710 370 L710 390" fill="none"/>
+    <path d="M960 340 L960 370 L1200 370 L1200 390" fill="none"/>
+    <path d="M710 390 L710 410 L500 410" fill="none"/>
+    <path d="M710 390 L710 410 L920 410" fill="none"/>
+    <path d="M1200 390 L1200 410 L1050 410" fill="none"/>
+    <path d="M1200 390 L1200 410 L1400 410" fill="none"/>
+  </g>
+
+  <!-- Org nodes -->
+  <g fill="white" opacity="0.08">
+    <circle cx="500" cy="415" r="8"/>
+    <circle cx="920" cy="415" r="8"/>
+    <circle cx="1050" cy="415" r="8"/>
+    <circle cx="1400" cy="415" r="8"/>
+    <circle cx="710" cy="395" r="10" opacity="0.12"/>
+    <circle cx="1200" cy="395" r="10" opacity="0.12"/>
+  </g>
+
+  <!-- Philippine flag element (subtle) -->
+  <g transform="translate(960, 60)" opacity="0.05">
+    <polygon points="0,-25 6,-8 24,-8 10,3 15,20 0,10 -15,20 -10,3 -24,-8 -6,-8" fill="#FCD116"/>
+  </g>
+
+  <!-- Floating particles -->
+  <circle cx="300" cy="150" r="1.2" fill="#60a5fa" opacity="0.15"><animate attributeName="opacity" values="0.08;0.2;0.08" dur="4s" repeatCount="indefinite"/></circle>
+  <circle cx="1600" cy="130" r="1" fill="#a78bfa" opacity="0.12"><animate attributeName="opacity" values="0.06;0.18;0.06" dur="5s" repeatCount="indefinite"/></circle>
+  <circle cx="500" cy="200" r="0.8" fill="white" opacity="0.15"><animate attributeName="opacity" values="0.08;0.22;0.08" dur="3.5s" repeatCount="indefinite"/></circle>
+  <circle cx="1400" cy="180" r="1.5" fill="#60a5fa" opacity="0.1"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="4.5s" repeatCount="indefinite"/></circle>
+
+  <!-- Ground -->
+  <path d="M0 480 Q300 470 600 478 Q900 485 1200 475 Q1500 468 1920 480 L1920 500 L0 500 Z" fill="#020b1a" opacity="0.6"/>
+</svg>
