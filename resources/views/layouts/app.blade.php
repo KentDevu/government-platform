@@ -60,9 +60,11 @@
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gov-primary transition-colors">search</span>
                     <input class="w-full bg-slate-100 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-gov-primary/20 focus:bg-white transition-all" placeholder="Search services, agencies..." type="text" />
                 </div>
+                @if ($isAdminDevice)
                 <a href="{{ route('admin.login') }}" class="hidden md:flex h-10 px-5 items-center justify-center rounded-lg bg-gov-primary text-white text-sm font-bold hover:shadow-lg hover:shadow-gov-primary/30 transition-all whitespace-nowrap">
                     Sign In
                 </a>
+                @endif
                 {{-- Hamburger Button (mobile only) --}}
                 <button id="sidebar-open" class="xl:hidden flex items-center justify-center size-10 rounded-lg hover:bg-slate-100 transition-colors" aria-label="Open menu">
                     <span class="material-symbols-outlined text-2xl">menu</span>
@@ -122,12 +124,14 @@
             </div>
         </nav>
 
-        {{-- Mobile Sign In --}}
+        {{-- Mobile Sign In (admin devices only) --}}
+        @if ($isAdminDevice)
         <div class="absolute bottom-0 left-0 right-0 p-5 border-t border-slate-100">
             <a href="{{ route('admin.login') }}" class="w-full h-12 rounded-xl bg-gov-primary text-white font-bold text-sm hover:shadow-lg hover:shadow-gov-primary/30 transition-all flex items-center justify-center">
                 Sign In
             </a>
         </div>
+        @endif
     </aside>
 
     {{-- ==================== PAGE CONTENT ==================== --}}

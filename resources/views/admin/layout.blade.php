@@ -74,6 +74,15 @@
                     <span>Dashboard</span>
                 </a>
 
+                @can('createStaff', \App\Models\User::class)
+                <a href="{{ route('admin.staff.index') }}"
+                   class="flex items-center gap-3 px-3 py-2 rounded-md text-sm {{ request()->routeIs('admin.staff.*') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <span class="material-symbols-outlined text-[20px]">groups</span>
+                    <span>Staff</span>
+                </a>
+                @endcan
+
+                @can('manageContent', \App\Models\User::class)
                 {{-- Content Section --}}
                 <div class="mt-6 mb-2 px-3">
                     <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Content</span>
@@ -148,6 +157,7 @@
                     <span class="material-symbols-outlined text-[20px]">balance</span>
                     <span>Judiciary Functions</span>
                 </a>
+                @endcan
             </div>
         </aside>
 

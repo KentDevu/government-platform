@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AdminDeviceMiddleware;
+use App\Models\User;
+use App\Policies\UserPolicy;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::policy(User::class, UserPolicy::class);
+
+        // Share isAdminDevice with the main layout
+        View::composer('layouts.app', function ($view) {
+            $view->with('isAdminDevice', AdminDeviceMiddleware::isAdminDevice(request()));
+        });
     }
 }

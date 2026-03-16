@@ -13,6 +13,7 @@ use App\Models\JudiciaryFunction;
 use App\Models\Leader;
 use App\Models\PressRelease;
 use App\Models\RecentLaw;
+use App\Models\Role;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -23,14 +24,19 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         // Admin user
-        User::updateOrCreate(
-            ['email' => 'admin@example.com'],
+        $adminUser = User::updateOrCreate(
+            ['email' => 'usesecuvia@gmail.com'],
             [
                 'name' => 'Admin',
                 'password' => Hash::make('admin123'),
                 'is_admin' => true,
             ]
         );
+
+        $adminRole = Role::where('name', 'admin')->first();
+        if ($adminRole) {
+            $adminUser->roles()->syncWithoutDetaching([$adminRole->id]);
+        }
 
         // Hero settings
         HeroSetting::updateOrCreate(['id' => 1], [
@@ -41,6 +47,37 @@ class AdminSeeder extends Seeder
             'image' => '/assets/img/assets/home.jpg',
         ]);
 
+        // Departments (Executive) — created before services so we can reference them
+        $departments = [
+            ['name' => 'Department of Agriculture', 'acronym' => 'DA', 'icon' => 'agriculture', 'sort_order' => 1],
+            ['name' => 'Department of Budget and Management', 'acronym' => 'DBM', 'icon' => 'calculate', 'sort_order' => 2],
+            ['name' => 'Department of Education', 'acronym' => 'DepEd', 'icon' => 'school', 'sort_order' => 3],
+            ['name' => 'Department of Energy', 'acronym' => 'DOE', 'icon' => 'bolt', 'sort_order' => 4],
+            ['name' => 'Department of Environment and Natural Resources', 'acronym' => 'DENR', 'icon' => 'park', 'sort_order' => 5],
+            ['name' => 'Department of Finance', 'acronym' => 'DOF', 'icon' => 'account_balance', 'sort_order' => 6],
+            ['name' => 'Department of Foreign Affairs', 'acronym' => 'DFA', 'icon' => 'public', 'sort_order' => 7],
+            ['name' => 'Department of Health', 'acronym' => 'DOH', 'icon' => 'local_hospital', 'sort_order' => 8],
+            ['name' => 'Department of Human Settlements and Urban Development', 'acronym' => 'DHSUD', 'icon' => 'home_work', 'sort_order' => 9],
+            ['name' => 'Department of Information and Communications Technology', 'acronym' => 'DICT', 'icon' => 'wifi', 'sort_order' => 10],
+            ['name' => 'Department of the Interior and Local Government', 'acronym' => 'DILG', 'icon' => 'location_city', 'sort_order' => 11],
+            ['name' => 'Department of Justice', 'acronym' => 'DOJ', 'icon' => 'gavel', 'sort_order' => 12],
+            ['name' => 'Department of Labor and Employment', 'acronym' => 'DOLE', 'icon' => 'work', 'sort_order' => 13],
+            ['name' => 'Department of Migrant Workers', 'acronym' => 'DMW', 'icon' => 'flight_takeoff', 'sort_order' => 14],
+            ['name' => 'Department of National Defense', 'acronym' => 'DND', 'icon' => 'shield', 'sort_order' => 15],
+            ['name' => 'Department of Public Works and Highways', 'acronym' => 'DPWH', 'icon' => 'engineering', 'sort_order' => 16],
+            ['name' => 'Department of Science and Technology', 'acronym' => 'DOST', 'icon' => 'science', 'sort_order' => 17],
+            ['name' => 'Department of Social Welfare and Development', 'acronym' => 'DSWD', 'icon' => 'diversity_3', 'sort_order' => 18],
+            ['name' => 'Department of Tourism', 'acronym' => 'DOT', 'icon' => 'travel_explore', 'sort_order' => 19],
+            ['name' => 'Department of Trade and Industry', 'acronym' => 'DTI', 'icon' => 'storefront', 'sort_order' => 20],
+            ['name' => 'Department of Transportation', 'acronym' => 'DOTr', 'icon' => 'directions_bus', 'sort_order' => 21],
+        ];
+        foreach ($departments as $d) {
+            Department::create($d);
+        }
+
+        // Helper to look up department ID by acronym
+        $deptId = fn (string $acronym) => Department::where('acronym', $acronym)->value('id');
+
         // Landing page services
         $landingServices = [
             ['icon' => 'travel', 'title' => 'Renew Passport', 'description' => 'Department of Foreign Affairs online appointment system.', 'cta' => 'Start Application', 'color' => 'primary', 'url' => '#', 'page' => 'landing', 'sort_order' => 1],
@@ -49,17 +86,17 @@ class AdminSeeder extends Seeder
             ['icon' => 'badge', 'title' => 'Verify PhilID', 'description' => 'Validate Philippine Identification System (PhilSys) digital credentials.', 'cta' => 'Verify Now', 'color' => 'neutral', 'url' => '#', 'page' => 'landing', 'sort_order' => 4],
         ];
 
-        // Services page services
+        // Services page services (department_id references parent department)
         $servicesPage = [
-            ['icon' => 'travel', 'title' => 'Passport Services', 'agency' => 'Department of Foreign Affairs', 'description' => 'Apply for new passports, renew existing ones, or schedule appointments at DFA consular offices nationwide.', 'cta' => 'Schedule Appointment', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 1],
-            ['icon' => 'assignment_ind', 'title' => 'NBI Clearance', 'agency' => 'National Bureau of Investigation', 'description' => 'Apply for multi-purpose NBI clearance for employment, travel, or other legal requirements.', 'cta' => 'Apply Online', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 2],
-            ['icon' => 'payments', 'title' => 'Tax Filing & Payment', 'agency' => 'Bureau of Internal Revenue', 'description' => 'File income tax returns, pay taxes online, and access BIR e-services for individuals and businesses.', 'cta' => 'e-File Now', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 3],
-            ['icon' => 'badge', 'title' => 'PhilSys National ID', 'agency' => 'Philippine Statistics Authority', 'description' => 'Register for the Philippine Identification System (PhilSys) and verify digital credentials.', 'cta' => 'Register Now', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 4],
-            ['icon' => 'local_hospital', 'title' => 'PhilHealth Services', 'agency' => 'Philippine Health Insurance Corporation', 'description' => 'Check membership status, file claims, and access universal healthcare benefits online.', 'cta' => 'Check Status', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 5],
-            ['icon' => 'school', 'title' => 'SSS Online', 'agency' => 'Social Security System', 'description' => 'View contributions, apply for loans, file claims, and manage your SSS membership digitally.', 'cta' => 'Access SSS', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 6],
-            ['icon' => 'home_work', 'title' => 'Pag-IBIG Fund', 'agency' => 'Home Development Mutual Fund', 'description' => 'Apply for housing loans, check savings, and manage your Pag-IBIG membership and contributions.', 'cta' => 'View Account', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 7],
-            ['icon' => 'directions_car', 'title' => 'LTO Services', 'agency' => 'Land Transportation Office', 'description' => "Renew driver's licenses, register vehicles, and access LTO online appointment systems.", 'cta' => 'Book Appointment', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 8],
-            ['icon' => 'description', 'title' => 'Civil Registry', 'agency' => 'Philippine Statistics Authority', 'description' => 'Request birth certificates, marriage certificates, and other civil registry documents online.', 'cta' => 'Request Document', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 9],
+            ['icon' => 'travel', 'title' => 'Passport Services', 'department_id' => $deptId('DFA'), 'description' => 'Apply for new passports, renew existing ones, or schedule appointments at DFA consular offices nationwide.', 'cta' => 'Schedule Appointment', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 1],
+            ['icon' => 'assignment_ind', 'title' => 'NBI Clearance', 'department_id' => $deptId('DOJ'), 'description' => 'Apply for multi-purpose NBI clearance for employment, travel, or other legal requirements.', 'cta' => 'Apply Online', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 2],
+            ['icon' => 'payments', 'title' => 'Tax Filing & Payment', 'department_id' => $deptId('DOF'), 'description' => 'File income tax returns, pay taxes online, and access BIR e-services for individuals and businesses.', 'cta' => 'e-File Now', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 3],
+            ['icon' => 'badge', 'title' => 'PhilSys National ID', 'department_id' => null, 'description' => 'Register for the Philippine Identification System (PhilSys) and verify digital credentials.', 'cta' => 'Register Now', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 4],
+            ['icon' => 'local_hospital', 'title' => 'PhilHealth Services', 'department_id' => $deptId('DOH'), 'description' => 'Check membership status, file claims, and access universal healthcare benefits online.', 'cta' => 'Check Status', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 5],
+            ['icon' => 'school', 'title' => 'SSS Online', 'department_id' => null, 'description' => 'View contributions, apply for loans, file claims, and manage your SSS membership digitally.', 'cta' => 'Access SSS', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 6],
+            ['icon' => 'home_work', 'title' => 'Pag-IBIG Fund', 'department_id' => null, 'description' => 'Apply for housing loans, check savings, and manage your Pag-IBIG membership and contributions.', 'cta' => 'View Account', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 7],
+            ['icon' => 'directions_car', 'title' => 'LTO Services', 'department_id' => $deptId('DOTr'), 'description' => "Renew driver's licenses, register vehicles, and access LTO online appointment systems.", 'cta' => 'Book Appointment', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 8],
+            ['icon' => 'description', 'title' => 'Civil Registry', 'department_id' => null, 'description' => 'Request birth certificates, marriage certificates, and other civil registry documents online.', 'cta' => 'Request Document', 'color' => 'primary', 'url' => '#', 'page' => 'services', 'sort_order' => 9],
         ];
 
         foreach (array_merge($landingServices, $servicesPage) as $s) {
@@ -142,33 +179,7 @@ class AdminSeeder extends Seeder
             Leader::create($l);
         }
 
-        // Departments (Executive)
-        $departments = [
-            ['name' => 'Department of Agriculture', 'acronym' => 'DA', 'icon' => 'agriculture', 'sort_order' => 1],
-            ['name' => 'Department of Budget and Management', 'acronym' => 'DBM', 'icon' => 'calculate', 'sort_order' => 2],
-            ['name' => 'Department of Education', 'acronym' => 'DepEd', 'icon' => 'school', 'sort_order' => 3],
-            ['name' => 'Department of Energy', 'acronym' => 'DOE', 'icon' => 'bolt', 'sort_order' => 4],
-            ['name' => 'Department of Environment and Natural Resources', 'acronym' => 'DENR', 'icon' => 'park', 'sort_order' => 5],
-            ['name' => 'Department of Finance', 'acronym' => 'DOF', 'icon' => 'account_balance', 'sort_order' => 6],
-            ['name' => 'Department of Foreign Affairs', 'acronym' => 'DFA', 'icon' => 'public', 'sort_order' => 7],
-            ['name' => 'Department of Health', 'acronym' => 'DOH', 'icon' => 'local_hospital', 'sort_order' => 8],
-            ['name' => 'Department of Human Settlements and Urban Development', 'acronym' => 'DHSUD', 'icon' => 'home_work', 'sort_order' => 9],
-            ['name' => 'Department of Information and Communications Technology', 'acronym' => 'DICT', 'icon' => 'wifi', 'sort_order' => 10],
-            ['name' => 'Department of the Interior and Local Government', 'acronym' => 'DILG', 'icon' => 'location_city', 'sort_order' => 11],
-            ['name' => 'Department of Justice', 'acronym' => 'DOJ', 'icon' => 'gavel', 'sort_order' => 12],
-            ['name' => 'Department of Labor and Employment', 'acronym' => 'DOLE', 'icon' => 'work', 'sort_order' => 13],
-            ['name' => 'Department of Migrant Workers', 'acronym' => 'DMW', 'icon' => 'flight_takeoff', 'sort_order' => 14],
-            ['name' => 'Department of National Defense', 'acronym' => 'DND', 'icon' => 'shield', 'sort_order' => 15],
-            ['name' => 'Department of Public Works and Highways', 'acronym' => 'DPWH', 'icon' => 'engineering', 'sort_order' => 16],
-            ['name' => 'Department of Science and Technology', 'acronym' => 'DOST', 'icon' => 'science', 'sort_order' => 17],
-            ['name' => 'Department of Social Welfare and Development', 'acronym' => 'DSWD', 'icon' => 'diversity_3', 'sort_order' => 18],
-            ['name' => 'Department of Tourism', 'acronym' => 'DOT', 'icon' => 'travel_explore', 'sort_order' => 19],
-            ['name' => 'Department of Trade and Industry', 'acronym' => 'DTI', 'icon' => 'storefront', 'sort_order' => 20],
-            ['name' => 'Department of Transportation', 'acronym' => 'DOTr', 'icon' => 'directions_bus', 'sort_order' => 21],
-        ];
-        foreach ($departments as $d) {
-            Department::create($d);
-        }
+        // Departments already created above (before services)
 
         // Chambers (Legislative)
         $chambers = [
