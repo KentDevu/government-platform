@@ -29,6 +29,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
+                        <th class="text-left px-4 py-3 font-semibold text-gray-600">Avatar</th>
                         <th class="text-left px-4 py-3 font-semibold text-gray-600">Name</th>
                         <th class="text-left px-4 py-3 font-semibold text-gray-600">Email</th>
                         <th class="text-left px-4 py-3 font-semibold text-gray-600">Permissions</th>
@@ -38,12 +39,23 @@
                 <tbody>
                     @forelse ($staff as $member)
                         <tr class="border-b border-gray-100 last:border-b-0">
+                            <td class="px-4 py-3">
+                                @if ($member->avatar_path)
+                                    <img src="{{ Storage::url($member->avatar_path) }}"
+                                         alt="{{ $member->name }}"
+                                         class="w-10 h-10 rounded-full object-cover">
+                                @else
+                                    <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-sm text-gray-400">person</span>
+                                    </div>
+                                @endif
+                            </td>
                             <td class="px-4 py-3 font-medium text-gray-900">{{ $member->name }}</td>
                             <td class="px-4 py-3 text-gray-600">{{ $member->email }}</td>
                             <td class="px-4 py-3">
                                 <div class="flex flex-wrap gap-1.5">
                                     @forelse ($member->permissions as $permission)
-                                        <span class="inline-flex items-center px-2 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-medium">{{ $permission->display_name }}</span>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-medium">{{ $permission->label }}</span>
                                     @empty
                                         <span class="text-xs text-gray-400">No permissions</span>
                                     @endforelse
@@ -68,7 +80,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-10 text-center text-gray-500">No staff accounts found.</td>
+                            <td colspan="5" class="px-4 py-10 text-center text-gray-500">No staff accounts found.</td>
                         </tr>
                     @endforelse
                 </tbody>

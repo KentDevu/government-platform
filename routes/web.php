@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landing');
@@ -12,6 +14,8 @@ Route::get('/agencies', [LandingPageController::class, 'agencies'])->name('agenc
 Route::get('/executive', [LandingPageController::class, 'executive'])->name('executive');
 Route::get('/legislative', [LandingPageController::class, 'legislative'])->name('legislative');
 Route::get('/judiciary', [LandingPageController::class, 'judiciary'])->name('judiciary');
+
+Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
 
 // Admin Auth (only accessible from admin devices)
 Route::middleware('admin.device')->group(function () {
@@ -26,6 +30,15 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
+    // Profile Routes
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+    Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+    // Wallet Routes
+    Route::get('/wallet-transactions', [WalletController::class, 'index'])->name('wallet.index');
+    Route::post('/wallet-transactions', [WalletController::class, 'store'])
+        ->middleware('throttle:5,1')  // Rate limiting: 5 requests per minute
+        ->name('wallet.store');
     Route::middleware('can:createStaff,App\\Models\\User')->group(function () {
         Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
         Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');

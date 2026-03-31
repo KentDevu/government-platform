@@ -40,10 +40,19 @@
                     <span class="material-symbols-outlined text-sm">open_in_new</span> View Site
                 </a>
                 <div class="flex items-center gap-2 pl-3 border-l border-gray-200">
-                    <div class="w-7 h-7 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
-                        <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">person</span>
-                    </div>
-                    <span class="hidden sm:inline text-xs font-medium text-gray-600">{{ auth()->user()->name }}</span>
+                    <a href="{{ route('admin.profile') }}"
+                       class="group flex items-center gap-2 rounded-lg hover:bg-gray-100 px-2 py-1.5 -ml-2 transition-colors">
+                        @if (auth()->user()->avatar_path)
+                            <img src="{{ Storage::url(auth()->user()->avatar_path) }}"
+                                 alt="{{ auth()->user()->name }}"
+                                 class="w-7 h-7 rounded-full object-cover">
+                        @else
+                            <div class="w-7 h-7 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center group-hover:shadow-sm transition-shadow">
+                                <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">person</span>
+                            </div>
+                        @endif
+                        <span class="hidden sm:inline text-xs font-medium text-gray-600 group-hover:text-gray-900">{{ auth()->user()->name }}</span>
+                    </a>
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button class="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md" type="submit" title="Logout">
@@ -81,6 +90,13 @@
                     <span>Staff</span>
                 </a>
                 @endcan
+
+                {{-- Wallet Transactions --}}
+                <a href="{{ route('admin.wallet.index') }}"
+                   class="flex items-center gap-3 px-3 py-2 rounded-md text-sm {{ request()->routeIs('admin.wallet.*') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+                    <span>Wallet Transactions</span>
+                </a>
 
                 @can('manageContent', \App\Models\User::class)
                 {{-- Content Section --}}

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendAnnouncementNotificationJob;
+use App\Jobs\SendPressReleaseNotificationJob;
 use App\Models\Agency;
 use App\Models\AgencyGroup;
 use App\Models\Announcement;
@@ -212,7 +214,14 @@ class AdminController extends Controller
         $config = $this->getConfig($type);
         $data = $this->validateFields($request, $config['fields']);
         $data = $this->handleImageUploads($request, $config['fields'], $data);
-        $config['model']::create($data);
+        $item = $config['model']::create($data);
+
+        // Dispatch notification jobs for specific resources
+        if ($type === 'press-releases' && $item instanceof PressRelease) {
+            SendPressReleaseNotificationJob::dispatch($item);
+        } elseif ($type === 'announcements' && $item instanceof Announcement) {
+            SendAnnouncementNotificationJob::dispatch($item);
+        }
 
         return redirect()->route('admin.resource.index', $type)->with('success', "{$config['label']} item created.");
     }
