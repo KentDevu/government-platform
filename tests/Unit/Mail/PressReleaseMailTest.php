@@ -1,60 +1,45 @@
 <?php
 
-namespace Tests\Unit\Mail;
-
 use App\Mail\PressReleaseMail;
 use App\Models\PressRelease;
 use App\Models\User;
-use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
 
-class PressReleaseMailTest extends TestCase
-{
-    #[Test]
-    public function it_has_correct_subject(): void
-    {
-        $pressRelease = PressRelease::factory()->create(['title' => 'Test Press Release']);
-        $user = User::factory()->create();
+it('has correct subject', function (): void {
+    $pressRelease = PressRelease::factory()->create(['title' => 'Test Press Release']);
+    $user = User::factory()->create();
 
-        $mail = new PressReleaseMail($pressRelease, $user);
+    $mail = new PressReleaseMail($pressRelease, $user);
 
-        $this->assertStringContainsString('Test Press Release', $mail->envelope()->subject);
-    }
+    expect($mail->envelope()->subject)->toContain('Test Press Release');
+});
 
-    #[Test]
-    public function it_sends_to_user_email(): void
-    {
-        $pressRelease = PressRelease::factory()->create();
-        $user = User::factory()->create(['email' => 'test@example.com']);
+it('sends to user email', function (): void {
+    $pressRelease = PressRelease::factory()->create();
+    $user = User::factory()->create(['email' => 'test@example.com']);
 
-        $mail = new PressReleaseMail($pressRelease, $user);
-        $envelope = $mail->envelope();
+    $mail = new PressReleaseMail($pressRelease, $user);
+    $envelope = $mail->envelope();
 
-        $this->assertNotEmpty($envelope->to);
-        $this->assertCount(1, $envelope->to);
-        $this->assertEquals('test@example.com', $envelope->to[0]->address);
-    }
+    expect($envelope->to)->not->toBeEmpty();
+    expect($envelope->to)->toHaveCount(1);
+    expect($envelope->to[0]->address)->toBe('test@example.com');
+});
 
-    #[Test]
-    public function it_passes_correct_data_to_view(): void
-    {
-        $pressRelease = PressRelease::factory()->create();
-        $user = User::factory()->create();
+it('passes correct data to view', function (): void {
+    $pressRelease = PressRelease::factory()->create();
+    $user = User::factory()->create();
 
-        $mail = new PressReleaseMail($pressRelease, $user);
-        $content = $mail->content();
+    $mail = new PressReleaseMail($pressRelease, $user);
+    $content = $mail->content();
 
-        $this->assertEquals('emails.press-release', $content->view);
-    }
+    expect($content->view)->toBe('emails.press-release');
+});
 
-    #[Test]
-    public function it_has_no_attachments(): void
-    {
-        $pressRelease = PressRelease::factory()->create();
-        $user = User::factory()->create();
+it('has no attachments', function (): void {
+    $pressRelease = PressRelease::factory()->create();
+    $user = User::factory()->create();
 
-        $mail = new PressReleaseMail($pressRelease, $user);
+    $mail = new PressReleaseMail($pressRelease, $user);
 
-        $this->assertEmpty($mail->attachments());
-    }
-}
+    expect($mail->attachments())->toBeEmpty();
+});
