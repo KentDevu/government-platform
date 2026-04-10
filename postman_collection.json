@@ -1,0 +1,633 @@
+{
+	"info": {
+		"_postman_id": "gov-ph-api-v1",
+		"name": "GOV.PH API v1",
+		"description": "REST API for the GOV.PH Government Portal.\n\nBase URL: http://127.0.0.1:8000/api/v1\n\n## Authentication\nUse the Login or OTP Verify endpoints to get a Bearer token.\nSet the token in the collection variable `{{token}}`.\n\n## Resource Types (for Admin CRUD)\nservices, announcements, press-releases, agencies, agency-groups, leaders, departments, chambers, recent-laws, courts, judiciary-functions, hero-settings",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Public",
+			"description": "Public endpoints — no authentication required.",
+			"item": [
+				{
+					"name": "Landing Page",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/landing",
+							"host": ["{{baseUrl}}"],
+							"path": ["landing"]
+						},
+						"description": "Returns hero settings, services (landing page), latest announcements, and latest press releases."
+					},
+					"response": []
+				},
+				{
+					"name": "Services",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/services?page=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["services"],
+							"query": [
+								{ "key": "page", "value": "1", "description": "Page number (paginated)" }
+							]
+						},
+						"description": "Returns paginated services (page='services') with department relationship."
+					},
+					"response": []
+				},
+				{
+					"name": "Agencies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/agencies",
+							"host": ["{{baseUrl}}"],
+							"path": ["agencies"]
+						},
+						"description": "Returns agency groups with their nested agencies."
+					},
+					"response": []
+				},
+				{
+					"name": "Executive",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/executive",
+							"host": ["{{baseUrl}}"],
+							"path": ["executive"]
+						},
+						"description": "Returns leaders and departments."
+					},
+					"response": []
+				},
+				{
+					"name": "Legislative",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/legislative",
+							"host": ["{{baseUrl}}"],
+							"path": ["legislative"]
+						},
+						"description": "Returns chambers and recent laws."
+					},
+					"response": []
+				},
+				{
+					"name": "Judiciary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/judiciary",
+							"host": ["{{baseUrl}}"],
+							"path": ["judiciary"]
+						},
+						"description": "Returns courts and judiciary functions."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"description": "Authentication endpoints. Rate-limited to 5 requests/minute.",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.success && jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set('token', jsonData.data.token);",
+									"    console.log('Token saved to collection variable.');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": { "type": "noauth" },
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Login with email + password. Returns a Bearer token on success.\n\nThe test script auto-saves the token to the `{{token}}` collection variable."
+					},
+					"response": []
+				},
+				{
+					"name": "Send OTP",
+					"request": {
+						"auth": { "type": "noauth" },
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/otp/send",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "otp", "send"]
+						},
+						"description": "Sends a 6-digit OTP to the admin user's email. Always returns success (anti-enumeration)."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify OTP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.success && jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set('token', jsonData.data.token);",
+									"    console.log('Token saved to collection variable.');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": { "type": "noauth" },
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"otp\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/otp/verify",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "otp", "verify"]
+						},
+						"description": "Verify the 6-digit OTP. Returns a Bearer token on success. Max 3 attempts per OTP.\n\nThe test script auto-saves the token to the `{{token}}` collection variable."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/logout",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "logout"]
+						},
+						"description": "Revokes the current Bearer token. Requires authentication."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"description": "Authenticated user profile endpoints. Requires Bearer token.",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["profile"]
+						},
+						"description": "Returns the authenticated user's profile with roles and permissions."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile (JSON)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Name\",\n    \"email\": \"admin@example.com\",\n    \"phone_number\": \"+639123456789\",\n    \"address\": \"Manila, Philippines\",\n    \"bio\": \"Updated bio text.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["profile"]
+						},
+						"description": "Update profile fields (JSON). Use PUT for JSON updates without avatar."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile (with Avatar)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "name", "value": "Updated Name", "type": "text" },
+								{ "key": "email", "value": "admin@example.com", "type": "text" },
+								{ "key": "phone_number", "value": "+639123456789", "type": "text" },
+								{ "key": "address", "value": "Manila, Philippines", "type": "text" },
+								{ "key": "bio", "value": "Updated bio text.", "type": "text" },
+								{ "key": "avatar", "type": "file", "src": "" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["profile"]
+						},
+						"description": "Update profile with avatar upload. Use POST with multipart/form-data when uploading files."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin — Dashboard",
+			"description": "Admin dashboard. Requires Bearer token + admin access.",
+			"item": [
+				{
+					"name": "Dashboard Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/dashboard",
+							"host": ["{{baseUrl}}"],
+							"path": ["dashboard"]
+						},
+						"description": "Returns counts for all resource types (services, announcements, press releases, agencies, etc.)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin — Wallet Transactions",
+			"description": "Wallet transaction management. Requires Bearer token + admin access.",
+			"item": [
+				{
+					"name": "List Available Roles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/wallet-transactions",
+							"host": ["{{baseUrl}}"],
+							"path": ["wallet-transactions"]
+						},
+						"description": "Returns available roles for mock wallet transaction generation."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Mock Transactions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"max_transactions\": 10,\n    \"role\": \"All\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/wallet-transactions",
+							"host": ["{{baseUrl}}"],
+							"path": ["wallet-transactions"]
+						},
+						"description": "Dispatch a job to create mock wallet transactions. Returns 202 Accepted.\n\nValid roles: All, Administrator, Staff, Helper, Guard.\nmax_transactions: 1-100."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin — Staff Management",
+			"description": "Staff CRUD. Requires Bearer token + admin access + createStaff permission.",
+			"item": [
+				{
+					"name": "List Staff",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/staff",
+							"host": ["{{baseUrl}}"],
+							"path": ["staff"]
+						},
+						"description": "Returns paginated list of staff users with their roles and permissions."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Staff",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Staff User\",\n    \"email\": \"newstaff@example.com\",\n    \"password\": \"password123\",\n    \"permissions\": [1, 2]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/staff",
+							"host": ["{{baseUrl}}"],
+							"path": ["staff"]
+						},
+						"description": "Create a new staff user. Permissions is an array of permission IDs."
+					},
+					"response": []
+				},
+				{
+					"name": "Show Staff",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/staff/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["staff", "1"]
+						},
+						"description": "Returns a single staff user with roles and permissions. Replace `1` with actual staff user ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Staff",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"permissions\": [1, 3, 5]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/staff/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["staff", "1"]
+						},
+						"description": "Update a staff user's permissions. Replace `1` with actual staff user ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Staff",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/staff/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["staff", "1"]
+						},
+						"description": "Delete a staff user. Replace `1` with actual staff user ID."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin — Resources CRUD",
+			"description": "Dynamic resource CRUD. Requires Bearer token + admin access + manageContent permission.\n\nValid types: services, announcements, press-releases, agencies, agency-groups, leaders, departments, chambers, recent-laws, courts, judiciary-functions, hero-settings",
+			"item": [
+				{
+					"name": "List Resources",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/resources/services?page=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["resources", "services"],
+							"query": [
+								{ "key": "page", "value": "1", "description": "Page number" }
+							]
+						},
+						"description": "List resources of a given type. Replace `services` with any valid type:\nservices, announcements, press-releases, agencies, agency-groups, leaders, departments, chambers, recent-laws, courts, judiciary-functions, hero-settings"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Resource (JSON)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Service\",\n    \"description\": \"Service description\",\n    \"icon\": \"fas fa-cog\",\n    \"page\": \"services\",\n    \"department_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources/services",
+							"host": ["{{baseUrl}}"],
+							"path": ["resources", "services"]
+						},
+						"description": "Create a new resource. Body fields depend on the resource type.\n\nExample for services. Change the type and body as needed."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Resource (with Image)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "title", "value": "New Announcement", "type": "text" },
+								{ "key": "content", "value": "Announcement content here.", "type": "text" },
+								{ "key": "image", "type": "file", "src": "" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources/announcements",
+							"host": ["{{baseUrl}}"],
+							"path": ["resources", "announcements"]
+						},
+						"description": "Create a resource with image upload. Use multipart/form-data.\n\nResource types with images: announcements, press-releases, leaders, agencies, hero-settings."
+					},
+					"response": []
+				},
+				{
+					"name": "Show Resource",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/resources/services/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["resources", "services", "1"]
+						},
+						"description": "Get a single resource by type and ID. Replace `services` and `1` as needed."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Resource (JSON)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Service Title\",\n    \"description\": \"Updated description\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources/services/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["resources", "services", "1"]
+						},
+						"description": "Update a resource by type and ID. Replace `services` and `1` as needed."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Resource (with Image)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "title", "value": "Updated Announcement", "type": "text" },
+								{ "key": "content", "value": "Updated content.", "type": "text" },
+								{ "key": "image", "type": "file", "src": "" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources/announcements/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["resources", "announcements", "1"]
+						},
+						"description": "Update a resource with image upload. Use POST (multipart/form-data fallback for PUT).\n\nReplace `announcements` and `1` as needed."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Resource",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/resources/services/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["resources", "services", "1"]
+						},
+						"description": "Delete a resource by type and ID. Replace `services` and `1` as needed."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

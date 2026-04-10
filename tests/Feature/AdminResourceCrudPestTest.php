@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * Admin Resource CRUD – Feature Test Suite
+ *
+ * Tests the full Create → Read → Update → Delete lifecycle for ALL 12 admin
+ * resource types, plus RBAC authorization checks for staff roles.
+ *
+ * Pest concepts demonstrated here:
+ *  • uses(RefreshDatabase::class)  – attaches a trait to every test in this file.
+ *  • beforeEach() / afterEach()    – lifecycle hooks that run around each test;
+ *                                    used here to isolate ADMIN_IPS and public path.
+ *  • dataset('name', [...])        – defines reusable argument sets; each entry
+ *                                    causes the ->with() test to run once per entry.
+ *  • describe('label', fn)         – groups related tests under a heading.
+ *  • it('description', fn)->with() – data-driven test; receives dataset args.
+ *  • expect($value)->not->toBeNull() – Pest's fluent assertion chain.
+ *  • Queue::fake() / Queue::assertPushed() – Laravel fakes for queue jobs.
+ */
+
 use App\Jobs\SendAnnouncementNotificationJob;
 use App\Jobs\SendPressReleaseNotificationJob;
 use App\Models\Agency;
@@ -24,8 +42,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase as LaravelTestCase;
 
+// uses() attaches the RefreshDatabase trait so every test gets a clean DB.
 uses(RefreshDatabase::class);
 
+// Shared mutable state for environment isolation across beforeEach/afterEach.
 $adminResourceCrudState = [
     'previous_admin_ips' => null,
     'previous_public_path' => null,
@@ -33,6 +53,7 @@ $adminResourceCrudState = [
     'test_public_path' => null,
 ];
 
+// beforeEach() runs BEFORE every test — sets up a whitelisted IP and temp public dir.
 beforeEach(function () use (&$adminResourceCrudState): void {
     $adminResourceCrudState['previous_admin_ips'] = getenv('ADMIN_IPS');
     $adminResourceCrudState['previous_public_path'] = app()->publicPath();
@@ -53,6 +74,7 @@ beforeEach(function () use (&$adminResourceCrudState): void {
     File::ensureDirectoryExists(public_path('assets/img/uploads'));
 });
 
+// afterEach() runs AFTER every test — restores original env vars and cleans temp dirs.
 afterEach(function () use (&$adminResourceCrudState): void {
     $previousAdminIps = $adminResourceCrudState['previous_admin_ips'];
     $previousPublicPath = $adminResourceCrudState['previous_public_path'];
@@ -81,6 +103,10 @@ afterEach(function () use (&$adminResourceCrudState): void {
     }
 });
 
+/**
+ * dataset() — defines the 12 admin resource types as [slug, Model::class, lookupField].
+ * Each entry makes the ->with('admin_resource_crud') test run once with those args.
+ */
 dataset('admin_resource_crud', [
     'services' => ['services', Service::class, 'title'],
     'announcements' => ['announcements', Announcement::class, 'title'],
@@ -96,7 +122,17 @@ dataset('admin_resource_crud', [
     'hero' => ['hero', HeroSetting::class, 'title'],
 ]);
 
+// describe() groups related tests — these all test the admin CRUD lifecycle.
 describe('admin resource crud', function (): void {
+    /**
+     * Data-driven test: runs once per dataset entry (12 times total).
+     * For each resource type it verifies:
+     *   1. GET  /create form returns 200
+     *   2. POST /store  creates the record + dispatches queue job (announcements/press-releases)
+     *   3. GET  /index  and /edit return 200
+     *   4. PUT  /update changes the record
+     *   5. DELETE /destroy removes the record
+     */
     it('allows an admin to perform create read update and delete for each resource', function (
         string $type,
         string $modelClass,
@@ -164,8 +200,9 @@ describe('admin resource crud', function (): void {
         $this->assertDatabaseMissing($createdItem->getTable(), [
             'id' => $createdItem->id,
         ]);
-    })->with('admin_resource_crud');
+    })->with('admin_resource_crud'); // ->with() feeds dataset entries into the closure args above.
 
+    // Authorization test: staff WITHOUT content.manage permission should be blocked.
     it('forbids staff without content permission from accessing resource routes', function (): void {
         $this->seed(RbacSeeder::class);
 
@@ -182,6 +219,7 @@ describe('admin resource crud', function (): void {
             ->assertForbidden();
     });
 
+    // Authorization test: staff WITH content.manage permission should be allowed.
     it('allows staff with content.manage permission to access resource routes', function (): void {
         $this->seed(RbacSeeder::class);
 
